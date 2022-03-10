@@ -1,8 +1,8 @@
 package com.polsl.prir_proj.services;
 
+import com.polsl.prir_proj.config.LoginCredentials;
 import com.polsl.prir_proj.models.User;
 import com.polsl.prir_proj.repositories.UserRepository;
-import com.polsl.prir_proj.web.dtos.UserDto;
 import com.polsl.prir_proj.web.errors.UserAlreadyExistException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,7 +21,7 @@ public class AuthService {
         return userRepository.findByUsername(username).getId();
     }
 
-    public User register(UserDto dto) throws UserAlreadyExistException {
+    public User register(LoginCredentials dto) throws UserAlreadyExistException {
 
         if (usernameExist(dto.getUsername())) {
             throw new UserAlreadyExistException("There is an account with that username: " + dto.getUsername());

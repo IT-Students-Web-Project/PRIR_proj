@@ -3,7 +3,6 @@ package com.polsl.prir_proj.web.controllers;
 import com.polsl.prir_proj.config.LoginCredentials;
 import com.polsl.prir_proj.models.User;
 import com.polsl.prir_proj.services.AuthService;
-import com.polsl.prir_proj.web.dtos.UserDto;
 import com.polsl.prir_proj.web.errors.UserAlreadyExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +18,9 @@ public class LoginController {
     private AuthService authService;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<String> register(@RequestBody UserDto userDto) {
+    public ResponseEntity<String> register(@RequestBody LoginCredentials dto) {
         try {
-            User registered = authService.register(userDto);
+            User registered = authService.register(dto);
             return new ResponseEntity<String>("Successfully registered user " + registered.getUsername(), HttpStatus.CREATED);
         } catch (UserAlreadyExistException uaeEx) {
             return new ResponseEntity<String>(uaeEx.toString(), HttpStatus.BAD_REQUEST);
