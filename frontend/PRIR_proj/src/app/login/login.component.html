@@ -1,0 +1,94 @@
+<div class="text-center">
+  <ng-container *ngIf="!isLoading">
+    <div class="mask d-flex align-items-center h-100">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-5 col-md-8">
+
+            <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" class="bg-white  rounded-5 shadow-5-strong p-5">
+
+              <div class="form-floating mb-3">
+                <input *ngIf="!isLoginMode"
+                       autofocus
+                       class="form-control"
+                       email
+                       id="inputEmail"
+                       name="email"
+                       ngModel
+                       placeholder="name@example.com"
+                       required
+                       type="email"
+                >
+                <label for="inputEmail">Email address</label>
+              </div>
+
+              <div class="form-floating">
+                <input
+                  autofocus
+                  class="form-control"
+                  id="inputUsername"
+                  minlength="3"
+                  name="username"
+                  ngModel
+                  placeholder="username"
+                  required
+                  type="username"
+                >
+                <label for="inputUsername">Username</label>
+              </div>
+
+              <div class="form-floating">
+                <input
+                  class="form-control"
+                  id="inputPassword"
+                  minlength="3"
+                  name="password"
+                  ngModel
+                  placeholder="password"
+                  required
+                  type="password"
+                >
+                <label for="inputPassword">Password</label>
+              </div>
+
+              <!-- 2 column grid layout for inline styling -->
+              <div class="row mb-4">
+                <div class="col d-flex justify-content-center">
+                  <!-- Checkbox -->
+                  <div class="form-check">
+                    <input checked class="form-check-input" id="rememberMe" type="checkbox" value=""/>
+                    <label class="form-check-label" for="rememberMe">
+                      Remember me
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col text-center">
+                  <!-- Simple link -->
+                  <a href="#!">Forgot password?</a>
+                </div>
+              </div>
+
+              <!-- Submit button -->
+              <button
+                [disabled]="!authForm.valid"
+                class="btn btn-lg btn-primary btn-block"
+                type="submit">{{ isLoginMode ? 'Sign in' : 'Sign Up' }}
+              </button>
+              or
+              <button
+                (click)="onSwitchMode()"
+                class="btn btn-secondary btn-block"
+                type="button">{{ !isLoginMode ? 'Sign in' : 'Sign Up' }}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="isLoading">
+    <app-loading-spinner></app-loading-spinner>
+  </ng-container>
+</div>
