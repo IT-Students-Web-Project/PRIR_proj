@@ -1,0 +1,119 @@
+version: '3.2'
+
+services:
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+    networks:
+      - elk
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    container_name: kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - elk
+
+
+  elasticsearch:
+    build:
+      context: elasticsearch/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - elasticsearch:/usr/share/elasticsearch/data:z
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+      # Use single node discovery in order to disable production mode and avoid bootstrap checks.
+      # see: https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
+      discovery.type: single-node
+    networks:
+      - elk
+    depends_on:
+      - kafka
+
+  logstash:
+    build:
+      context: logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro,z
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro,z
+    ports:
+      - "5044:5044"
+      - "5000:5000/tcp"
+      - "5000:5000/udp"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    build:
+      context: kibana/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro,z
+    ports:
+      - "5601:5601"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  prometheus:
+    image: prom/prometheus:v2.24.1
+    container_name: 'prometheus'
+    volumes:
+      - ./monitoring/prometheus/:/etc/prometheus/
+    ports:
+      - '9090:9090'
+    networks:
+      - elk
+
+  grafana:
+    image: grafana/grafana:5.4.3
+    container_name: 'grafana'
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./monitoring/grafana/provisioning/:/etc/grafana/provisioning/
+    env_file:
+      - ./monitoring/grafana/config.monitoring
+    depends_on:
+      - prometheus
+    networks:
+      - elk
+
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  elasticsearch:
