@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit {
   isLoginMode: boolean = true;
   isLoading = false;
 
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {
+  constructor(private authService: AuthService,
+              private router: Router,
+              private toastr: ToastrService) {
   }
 
   onSwitchMode() {
@@ -38,7 +40,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (!form.valid) {
-      this.showError('Try again', 'Form invalid')
+      this.showError('Spróbuj ponownie', 'Błędne dane')
       return;
     }
 
@@ -57,17 +59,17 @@ export class LoginComponent implements OnInit {
       resData => {
         if (this.isLoginMode) {
           this.isLoading = false;
-          this.showSuccess('Enjoy progress tracking', 'Logged in');
-          this.router.navigate(['/home']);
+          this.showSuccess('Witaj w projekcie PRIR', 'Zalogowano');
+          this.router.navigateByUrl("/home");
         } else {
           this.isLoading = false;
           this.authService.toggleLoginMode(true);
-          this.router.navigate(['/login']);
-          this.showSuccess('Proceed to login', 'Register success');
+          this.router.navigateByUrl('/login');
+          this.showSuccess('Przejdź do logowania', 'Pomyślnie zarejestrowano');
         }
       },
       errorMessage => {
-        this.showError('Please check your email', errorMessage);
+        this.showError('Błędny email', errorMessage);
         this.isLoading = false;
       }
     );

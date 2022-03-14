@@ -1,0 +1,46 @@
+<header>
+  <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" routerLink="/">PRIR projekt</a>
+      <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+              class="navbar-toggler"
+              data-bs-target="#navbarContent" data-bs-toggle="collapse" type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarContent">
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home" routerLinkActive="active">Strona główna</a>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-md-0">
+          <input class="form-control" placeholder=" Szukaj " type="text">
+        </form>
+        <ul class="navbar-nav">
+
+          <div *ngIf="!isAuthenticated">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item text-nowrap">
+                <a (click)="onLogin()" class="nav-link" routerLink="/login">Zaloguj</a>
+              </li>
+              <li class="nav-item text-nowrap">
+                <a (click)="onRegister()" class="nav-link" routerLink="/login">Zarejestruj</a>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="isAuthenticated">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item text-nowrap">
+                <a (click)="onLogout()" class="nav-link" routerLink="/">Wyloguj
+                  <fa-icon [icon]="faSignOut"></fa-icon>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
