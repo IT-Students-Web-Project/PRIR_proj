@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {AuthService} from "./auth/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,12 @@ import {Component} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'PRIR_proj';
+  title = 'PRIR projekt';
 
-  userName = JSON.parse(localStorage.getItem('user'))['username'];
+  constructor(private authService: AuthService) {
+  }
 
+  ngOnInit() {
+    this.authService.autoLogin();
+  }
 }

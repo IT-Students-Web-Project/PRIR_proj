@@ -19,7 +19,7 @@
                        required
                        type="email"
                 >
-                <label for="inputEmail">Email address</label>
+                <label for="inputEmail">Adres e-mail</label>
               </div>
 
               <div class="form-floating">
@@ -34,7 +34,7 @@
                   required
                   type="username"
                 >
-                <label for="inputUsername">Username</label>
+                <label for="inputUsername">Użytkownik</label>
               </div>
 
               <div class="form-floating">
@@ -48,38 +48,21 @@
                   required
                   type="password"
                 >
-                <label for="inputPassword">Password</label>
-              </div>
-
-              <!-- 2 column grid layout for inline styling -->
-              <div class="row mb-4">
-                <div class="col d-flex justify-content-center">
-                  <!-- Checkbox -->
-                  <div class="form-check">
-                    <input checked class="form-check-input" id="rememberMe" type="checkbox" value=""/>
-                    <label class="form-check-label" for="rememberMe">
-                      Remember me
-                    </label>
-                  </div>
-                </div>
-
-                <div class="col text-center">
-                  <!-- Simple link -->
-                  <a href="#!">Forgot password?</a>
-                </div>
+                <label for="inputPassword">Hasło</label>
               </div>
 
               <!-- Submit button -->
+              <br>
               <button
                 [disabled]="!authForm.valid"
                 class="btn btn-lg btn-primary btn-block"
-                type="submit">{{ isLoginMode ? 'Sign in' : 'Sign Up' }}
+                type="submit">{{ isLoginMode ? 'Zaloguj' : 'Zarejestruj' }}
               </button>
-              or
+              lub
               <button
                 (click)="onSwitchMode()"
                 class="btn btn-secondary btn-block"
-                type="button">{{ !isLoginMode ? 'Sign in' : 'Sign Up' }}
+                type="button">{{ !isLoginMode ? 'Zaloguj' : 'Zarejestruj' }}
               </button>
             </form>
           </div>

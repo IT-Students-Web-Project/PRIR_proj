@@ -56,7 +56,9 @@ export class AuthService {
   handleAuthentication(username: string, token: string, tokenExpirationTime: string) {
     const user = new User(username, token, new Date(new Date().getTime() + Number(tokenExpirationTime)));
     this.user.next(user);
-    this.autoLogout(Number(tokenExpirationTime));
+    /*
+        this.autoLogout(Number(tokenExpirationTime));
+    */
     localStorage.setItem('user', JSON.stringify(user));
   }
 
@@ -100,29 +102,29 @@ export class AuthService {
 
   private handleError(errorRes: HttpErrorResponse) {
 
-    let errorMessage = 'An unknown error occurred!';
+    let errorMessage = 'Wystąpił nieznany błąd.';
 
     if (errorRes.status == 401) {
-      return throwError("Wrong username or password.");
+      return throwError("Błędna nazwa użytkownika lub hasło.");
     } else if (!errorRes.error || !errorRes.error.message) {
       return throwError(errorMessage);
     }
 
     switch (errorRes.error.message) {
       case 'EMAIL_EXISTS':
-        errorMessage = 'There is an account with that email adress.';
+        errorMessage = 'Ten adres e-mail jest zajęty.';
         break;
     }
 
     switch (errorRes.error.message) {
       case 'USERNAME_EXISTS':
-        errorMessage = 'There is an account with that username.';
+        errorMessage = 'Ta nazwa użytkownika jest zajęta.';
         break;
     }
 
     switch (errorRes.error.message) {
       case 'UNKNOWN':
-        errorMessage = 'UNKNOWN';
+        errorMessage = 'Nieznany';
         break;
     }
 
