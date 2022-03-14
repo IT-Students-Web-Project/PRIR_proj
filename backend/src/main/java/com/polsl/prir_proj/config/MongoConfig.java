@@ -32,7 +32,7 @@ public class MongoConfig {
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        MongoTemplate template = new MongoTemplate(mongo(), "TweetApp");
+        MongoTemplate template = new MongoTemplate(mongo(), "PRIR");
         template.indexOps("user").ensureIndex(new Index("username", Sort.Direction.ASC).unique());
         return template;
     }
