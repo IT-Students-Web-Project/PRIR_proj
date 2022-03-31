@@ -2,12 +2,18 @@ package com.polsl.prir_proj.services;
 
 import com.polsl.prir_proj.models.File;
 import com.polsl.prir_proj.repositories.FileRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class FileService {
-    private FileRepository fileRepository;
+    private final FileRepository fileRepository;
 
     public List<File> getAllFiles() {
         return this.fileRepository.findAll();
