@@ -23,15 +23,9 @@ class MultithreadFileComparatorTest {
             files.add(new File("data/file" + i + ".txt"));
         }
 
-        FileContent compared = new FileContent(new File("data/temp/compared.txt"));
+        File compared = new File("data/temp/compared.txt");
 
-        MultithreadFileContentFactory fileContentFactory = new MultithreadFileContentFactory(
-                threads,
-                files
-        );
-        List<FileContent> fileContents = fileContentFactory.execute();
-
-        MultithreadFileComparator fileComparator = new MultithreadFileComparator(threads, compared, fileContents);
+        MultithreadFileComparator fileComparator = new MultithreadFileComparator(threads, compared, files);
         List<ComparisonResult> results = fileComparator.execute();
 
         for(ComparisonResult result : results) {
