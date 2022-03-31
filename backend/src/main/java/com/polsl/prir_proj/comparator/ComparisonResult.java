@@ -1,8 +1,8 @@
 package com.polsl.prir_proj.comparator;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class ComparisonResult {
 
     private int comparedSentences;
