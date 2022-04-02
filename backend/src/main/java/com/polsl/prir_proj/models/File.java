@@ -13,5 +13,13 @@ public class File {
     String id;
 
     @Field
-    String filePath;
+    byte[] content;
+
+    public File() {
+    }
+
+    public File(String id, byte[] content) {
+        this.id = id;
+        this.content = content;
+    }
 }

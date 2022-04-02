@@ -1,9 +1,13 @@
 package com.polsl.prir_proj.comparator;
 
+import com.polsl.prir_proj.models.File;
+import com.polsl.prir_proj.repositories.FileRepository;
+import lombok.ToString;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 
-import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,22 +16,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MultithreadFileComparatorTest {
 
-
-
     @Test
     void shouldCompareMultipleFilesToOriginal() throws InterruptedException, FileNotFoundException {
         int threads = Runtime.getRuntime().availableProcessors();
 
-        List<File> files = new ArrayList<>();
+        List<byte[]> contents = new ArrayList<>();
         for(int i = 1; i <5; i++) {
-            files.add(new File("data/file" + i + ".txt"));
+            contents.add("Test. New kind of test. Next sentence.".getBytes(StandardCharsets.UTF_8));
         }
-
-        FileContent compared = new FileContent(new File("data/temp/compared.txt"));
+        contents.add("Test. New kind of test. Next sentence. 100.".getBytes(StandardCharsets.UTF_8));
+        FileContent compared = new FileContent("Test. New kind of test. Next sentence. 100.".getBytes(StandardCharsets.UTF_8));
 
         MultithreadFileContentFactory fileContentFactory = new MultithreadFileContentFactory(
                 threads,
-                files
+                contents
         );
         List<FileContent> fileContents = fileContentFactory.execute();
 
