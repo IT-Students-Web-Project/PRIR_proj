@@ -14,8 +14,8 @@ class FileComparatorTest {
 
     @Test
     void shouldCompareTwoFiles() throws IOException {
-        FileContent compared = new FileContent("Test. New kind of test. Next sentence.".getBytes(StandardCharsets.UTF_8));
-        FileContent original = new FileContent("Test. New kind of test. Next sentence.".getBytes(StandardCharsets.UTF_8));
+        FileContent compared = new FileContent("Test. New kind of test. Next sentence.".getBytes(StandardCharsets.UTF_8), "asd");
+        FileContent original = new FileContent("Test. New kind of test. Next sentence.".getBytes(StandardCharsets.UTF_8), "asd1");
 
         FileComparator fileComparator = new FileComparator();
         ComparisonResult result = fileComparator.compareForSentences(original, compared);

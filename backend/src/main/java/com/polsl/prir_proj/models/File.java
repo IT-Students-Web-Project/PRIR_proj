@@ -15,11 +15,20 @@ public class File {
     @Field
     byte[] content;
 
+    @Field
+    String user;
+
     public File() {
     }
 
     public File(String id, byte[] content) {
         this.id = id;
         this.content = content;
+    }
+
+    public File(String id, byte[] content, String username){
+        this.id = id;
+        this.content = content;
+        this.user = username;
     }
 }

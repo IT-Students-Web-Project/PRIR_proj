@@ -3,9 +3,7 @@ package com.polsl.prir_proj.comparator;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.*;
 
 public class MultithreadFileContentFactory {
@@ -14,12 +12,12 @@ public class MultithreadFileContentFactory {
     private List<FileContent> fileContents;
     private List<GetContentTask> tasks;
 
-    public MultithreadFileContentFactory(int threads, List<byte[]> contents) {
+    public MultithreadFileContentFactory(int threads, HashMap<String, byte[]> contents) {
         executorService = Executors.newFixedThreadPool(threads);
         fileContents = new ArrayList<>();
         tasks = new ArrayList<>();
-        for(byte[] content : contents)
-            tasks.add(new GetContentTask(content));
+        for (Map.Entry<String, byte[]> entry : contents.entrySet())
+            tasks.add(new GetContentTask(entry.getValue(), entry.getKey()));
     }
 
     public List<FileContent> execute() throws InterruptedException {
@@ -41,14 +39,16 @@ public class MultithreadFileContentFactory {
     class GetContentTask implements Callable<FileContent> {
 
         private byte[] content;
+        private String fileId;
 
-        GetContentTask(byte[] content) {
+        GetContentTask(byte[] content, String fileId) {
             this.content = content;
+            this.fileId = fileId;
         }
 
         @Override
         public FileContent call() throws IOException {
-            return new FileContent(content);
+            return new FileContent(content, fileId);
         }
     }
 }

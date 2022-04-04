@@ -5,6 +5,7 @@ import com.polsl.prir_proj.models.File;
 import com.polsl.prir_proj.models.StringContentFile;
 import com.polsl.prir_proj.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.charset.StandardCharsets;
@@ -36,7 +37,7 @@ public class FileController {
 
     @PostMapping("addFileString")
     public void PostFileWithStringContent(@RequestBody StringContentFile file){
-        fileService.AddFileString(file);
+        fileService.AddFileString(file, "tmpUsername");
     }
 
     @PostMapping("addFile")

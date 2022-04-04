@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +39,8 @@ public class FileService {
         this.fileRepository.save(file);
     }
 
-    public void AddFileString(StringContentFile file){
-        AddFile(new File(file.id, file.content.getBytes(StandardCharsets.UTF_8)));
+    public void AddFileString(StringContentFile file, String username){
+        AddFile(new File(file.id, file.content.getBytes(StandardCharsets.UTF_8), username));
     }
 
     public File GetFileById(String id){
@@ -68,11 +69,11 @@ public class FileService {
         List<File> files = GetAllFiles();
         File comparedFile = GetFileById(id);
         files.remove(comparedFile);
-        List<byte[]> contents = new ArrayList<>();
+        HashMap<String, byte[]> contents = new HashMap<>();
         for(File file : files) {
-            contents.add(file.getContent());
+            contents.put(file.getId(), file.getContent());
         }
-        FileContent compared = new FileContent(comparedFile.getContent());
+        FileContent compared = new FileContent(comparedFile.getContent(), comparedFile.getId());
 
         MultithreadFileContentFactory fileContentFactory = new MultithreadFileContentFactory(
                 threads,

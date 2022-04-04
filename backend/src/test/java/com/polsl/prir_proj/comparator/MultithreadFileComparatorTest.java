@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,12 +21,12 @@ class MultithreadFileComparatorTest {
     void shouldCompareMultipleFilesToOriginal() throws InterruptedException, FileNotFoundException {
         int threads = Runtime.getRuntime().availableProcessors();
 
-        List<byte[]> contents = new ArrayList<>();
+        HashMap<String, byte[]> contents = new HashMap();
         for(int i = 1; i <5; i++) {
-            contents.add("Test. New kind of test. Next sentence.".getBytes(StandardCharsets.UTF_8));
+            contents.put("T" + i,"Test. New kind of test. Next sentence.".getBytes(StandardCharsets.UTF_8));
         }
-        contents.add("Test. New kind of test. Next sentence. 100.".getBytes(StandardCharsets.UTF_8));
-        FileContent compared = new FileContent("Test. New kind of test. Next sentence. 100.".getBytes(StandardCharsets.UTF_8));
+        contents.put("test","Test. New kind of test. Next sentence. 100.".getBytes(StandardCharsets.UTF_8));
+        FileContent compared = new FileContent("Test. New kind of test. Next sentence. 100.".getBytes(StandardCharsets.UTF_8), "asd");
 
         MultithreadFileContentFactory fileContentFactory = new MultithreadFileContentFactory(
                 threads,

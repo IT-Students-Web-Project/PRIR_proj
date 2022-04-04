@@ -10,10 +10,12 @@ import java.util.Scanner;
 @Getter
 public class FileContent {
 
+    String fileId;
     List<String> sentences = new ArrayList<>();
 
-    public FileContent(byte[] content)  {
+    public FileContent(byte[] content, String fileId)  {
         loadFromFile(content);
+        this.fileId = fileId;
     }
 
     private void loadFromFile(byte[] content)  {
