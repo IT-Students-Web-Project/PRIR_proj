@@ -1,7 +1,6 @@
 package com.polsl.prir_proj.comparator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -9,7 +8,7 @@ public class MultithreadFileComparator {
 
     ExecutorService executorService;
     private List<ComparisonResult> results;
-    private List<ComparisonTask> tasks;
+    private final List<ComparisonTask> tasks;
 
     public MultithreadFileComparator(int threads, FileContent compared, List<FileContent> database) {
         executorService = Executors.newFixedThreadPool(threads);
@@ -34,10 +33,10 @@ public class MultithreadFileComparator {
         return results;
     }
 
-    class ComparisonTask implements Callable<ComparisonResult> {
+    static class ComparisonTask implements Callable<ComparisonResult> {
 
-        private FileContent original;
-        private FileContent compared;
+        private final FileContent original;
+        private final FileContent compared;
 
         ComparisonTask(FileContent original, FileContent compared) {
             this.original = original;
