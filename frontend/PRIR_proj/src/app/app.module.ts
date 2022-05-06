@@ -14,6 +14,8 @@ import {NavbarComponent} from './navbar/navbar.component';
 import {HomeComponent} from './pages/home/home.component';
 import {MainComponent} from './pages/main/main.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { FileUploadComponent } from './pages/file-upload/file-upload.component';
+import { FileVerificationComponent } from './pages/file-verification/file-verification.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     LoadingspinnerComponent,
     NavbarComponent,
     HomeComponent,
-    MainComponent
+    MainComponent,
+    FileUploadComponent,
+    FileVerificationComponent
   ],
   imports: [
     BrowserModule,

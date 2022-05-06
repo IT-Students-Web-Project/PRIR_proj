@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row ms-5 mt-5">
+        <div class="col-3 p-2">
+            <h3>Zweryfikuj dokument</h3>
+        </div>
+        <div class="col-5">
+            <button class="btn btn-lg btn-primary btn-block m-1" (click)="verifyClicked()">Weryfikuj
+            </button>
+        </div>
+    </div>
+    <div class="row ms-5">
+        
+    </div>
+    <div class="row mt-5" *ngIf="results">
+        <h5>Wyniki weryfikacji:</h5>
+        <table class="mt-2">
+            <thead>
+                <th>ID dokumentu</th>
+                <th>Nazwa dokumentu</th>
+                <th>Liczba zdań</th>
+                <th>Liczba identycznych zdań</th>
+                <th>Stopień podobieństwa</th>
+            </thead>
+            <tbody>
+                <tr *ngFor="let r of results">
+                    <td>{{r.originalFileId}}</td>
+                    <td>{{r.originalFileName}}</td>
+                    <td>{{r.originalSentences}}</td>
+                    <td>{{r.identicalSentences}}</td>
+                    <td>{{r.similarityDegree}}%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

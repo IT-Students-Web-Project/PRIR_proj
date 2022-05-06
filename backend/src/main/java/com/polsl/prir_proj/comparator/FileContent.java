@@ -12,13 +12,15 @@ public class FileContent {
 
     String fileId;
     List<String> sentences = new ArrayList<>();
+    private String fileName;
 
-    public FileContent(byte[] content, String fileId)  {
-        loadFromFile(content);
+    public FileContent(byte[] content, String fileId, String fileName)  {
+        this.fileName = fileName;
+        loadSentences(content);
         this.fileId = fileId;
     }
 
-    private void loadFromFile(byte[] content)  {
+    private void loadSentences(byte[] content)  {
         try (ByteArrayInputStream stream = new ByteArrayInputStream(content)) {
             Scanner scanner = new Scanner(stream);
             scanner.useDelimiter("\\.");

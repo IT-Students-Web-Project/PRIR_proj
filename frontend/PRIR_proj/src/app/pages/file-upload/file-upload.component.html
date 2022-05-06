@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row ms-5 mt-5">
+        <div class="col-xl-5 col-md-8">
+            <h3>Wgraj plik do bazy dokumentów</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-5 col-md-8">
+            <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="bg-white  rounded-5 shadow-5-strong p-5">
+
+                <div class="form-floating mb-3">
+                    <input autofocus class="form-control" id="inputFileName" name="fileName" ngModel
+                        placeholder="Nazwa pliku" required type="text">
+                    <label for="inputFileName">Nazwa dokumentu</label>
+                </div>
+                <div class="mb-3">
+                    <input autofocus class="form-control file-upload" id="inputFile" name="file" ngModel
+                        required type="file" (change)="onFileSelected($event)">
+                </div>
+
+                <br>
+                <button class="btn btn-lg btn-primary btn-block m-1" type="submit">Zapisz
+                </button>
+                <button class="btn btn-lg btn-secondary m-1" routerLink="/home">Anuluj</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -7,15 +7,16 @@ import com.polsl.prir_proj.comparator.MultithreadFileContentFactory;
 import com.polsl.prir_proj.models.File;
 import com.polsl.prir_proj.models.StringContentFile;
 import com.polsl.prir_proj.repositories.FileRepository;
+import com.polsl.prir_proj.web.dto.FileInfoDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,61 +24,66 @@ import java.util.Optional;
 public class FileService {
     private final FileRepository fileRepository;
 
-    public List<File> GetAllFiles() {
+    public List<File> getAllFiles() {
         return this.fileRepository.findAll();
     }
 
-    public List<StringContentFile> GetAllFilesString() {
+    public List<StringContentFile> getAllFilesString() {
         List<StringContentFile> stringContentFiles = new ArrayList<>();
-        for(File file : GetAllFiles()){
+        for (File file : getAllFiles()) {
             stringContentFiles.add(new StringContentFile(file.getId(), new String(file.getContent())));
         }
-        return  stringContentFiles;
+        return stringContentFiles;
     }
 
-    public void AddFile(File file){
-        this.fileRepository.save(file);
+    public String addFile(File file) {
+        File saved = this.fileRepository.save(file);
+        return saved.getId();
     }
 
-    public void AddFileString(StringContentFile file, String username){
-        AddFile(new File(file.id, file.content.getBytes(StandardCharsets.UTF_8), username));
-    }
-
-    public File GetFileById(String id){
+    public File getFileById(String id) {
         Optional<File> file = this.fileRepository.findById(id);
         return file.orElse(null);
     }
 
-    public void RemoveFile(String id){
+    public void removeFile(String id) {
         this.fileRepository.deleteById(id);
     }
 
-    public void EditFile(File file){
-        if(this.fileRepository.findById(file.getId()).isPresent()){
+    public void editFile(File file) {
+        if (this.fileRepository.findById(file.getId()).isPresent()) {
             this.fileRepository.deleteById(file.getId());
             this.fileRepository.save(file);
         }
     }
 
-    public void EditFileString(StringContentFile file){
-        EditFile(new File(file.id, file.content.getBytes(StandardCharsets.UTF_8)));
+    public List<ComparisonResult> getSimilarFromAll(String id) {
+        List<ComparisonResult> comparisonResults = compareToAll(id);
+        return comparisonResults.stream()
+                .filter(r -> r.getSimilarityDegree() > 0)
+                .collect(Collectors.toList());
     }
 
-    public List<ComparisonResult> CompareToAll(String id){
+    public List<ComparisonResult> compareToAll(String id) {
         int threads = Runtime.getRuntime().availableProcessors();
 
-        List<File> files = GetAllFiles();
-        File comparedFile = GetFileById(id);
+        List<File> files = getAllFiles();
+        File comparedFile = getFileById(id);
         files.remove(comparedFile);
         HashMap<String, byte[]> contents = new HashMap<>();
-        for(File file : files) {
+        for (File file : files) {
             contents.put(file.getId(), file.getContent());
         }
-        FileContent compared = new FileContent(comparedFile.getContent(), comparedFile.getId());
+
+        FileContent compared = new FileContent(
+                comparedFile.getContent(),
+                comparedFile.getId(),
+                comparedFile.getFileName()
+        );
 
         MultithreadFileContentFactory fileContentFactory = new MultithreadFileContentFactory(
                 threads,
-                contents
+                files
         );
         List<ComparisonResult> results;
         try {
@@ -90,5 +96,20 @@ public class FileService {
             return null;
         }
 
+    }
+
+    public void updateFileInfo(FileInfoDTO fileInfoDTO) throws Exception {
+        String id = fileInfoDTO.getId();
+        Optional<File> fileOptional = fileRepository.findById(id);
+
+        File file;
+        if(fileOptional.isPresent())
+            file = fileOptional.get();
+        else
+            throw new Exception("Brak pliku o id: " + id + " w bazie danych");
+
+        file.setFileName(fileInfoDTO.getFileName());
+        file.setUser(fileInfoDTO.getUser());
+        fileRepository.save(file);
     }
 }

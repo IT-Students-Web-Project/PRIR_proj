@@ -21,7 +21,8 @@ public class FileComparator {
                 original.getSentences().size(),
                 identical,
                 identicalSentences,
-                original.getFileId()
+                original.getFileId(),
+                original.getFileName()
         );
     }
 }

@@ -13,6 +13,9 @@ public class File {
     String id;
 
     @Field
+    String fileName;
+
+    @Field
     byte[] content;
 
     @Field
@@ -21,13 +24,8 @@ public class File {
     public File() {
     }
 
-    public File(String id, byte[] content) {
-        this.id = id;
-        this.content = content;
-    }
-
-    public File(String id, byte[] content, String username){
-        this.id = id;
+    public File(String fileName, byte[] content, String username){
+        this.fileName = fileName;
         this.content = content;
         this.user = username;
     }

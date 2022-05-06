@@ -2,14 +2,29 @@
 
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">Witaj użytkowniku {{userName}}</h1>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button" routerLink="/">Wróć do strony startowej &raquo;</a>
-      </p>
+      <div class="col">
+        <h1 class="display-5 m-3 mb-5">Witaj {{userName}}!</h1>
+      </div>
+      <div class="col m-3">
+        <button class="btn btn-primary btn-lg" href="#" role="button" routerLink="/file-upload">Zweryfikuj plik pod
+          kątem plagiatu
+          &raquo;</button>
+      </div>
+
+      <div class="col m-3">
+        <button class="btn btn-primary btn-lg" href="#" role="button" routerLink="/">Przeglądaj bazę
+          dokumentów &raquo;</button>
+      </div>
+
+      <div class="col m-3">
+        <button class="btn btn-secondary btn-lg" href="#" role="button" routerLink="/">Wróć do strony startowej
+          &raquo;</button>
+      </div>
     </div>
   </div>
 
 </main>
 
-<footer class="container">
-  <p>&copy; Radosław Skowron, Jakub Barć, Jacek Loth 2022</p>
+<footer class="container mt-5">
+  <p>&copy; Radosław Loth, Jakub Skowron, Jacek Barć 2022</p>
 </footer>
