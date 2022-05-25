@@ -20,5 +20,7 @@ export class FileDatabaseViewComponent implements OnInit {
   ngOnInit(): void {
     this.fileService.getUserFiles(this.userName).subscribe((textFiles: TextFile[]) => {this.textFiles = textFiles})
   }
-
+  verifyClicked(id: number) {
+    this.router.navigateByUrl('/file-verification/' + id);
+  }
 }
