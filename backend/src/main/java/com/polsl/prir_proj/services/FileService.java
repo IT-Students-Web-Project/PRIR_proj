@@ -112,4 +112,22 @@ public class FileService {
         file.setUser(fileInfoDTO.getUser());
         fileRepository.save(file);
     }
+
+    public List<StringContentFile> getAllFilesByUser(String id) {
+        List<StringContentFile> stringContentFiles = new ArrayList<>();
+        for (File file : getAllFilesByUserId(id)) {
+            stringContentFiles.add(new StringContentFile(file.getId(), new String(file.getContent()), file.getFileName()));
+        }
+        return stringContentFiles;
+    }
+
+    private List<File> getAllFilesByUserId(String id) {
+        List<File> userFiles = new ArrayList<>();
+        for(File file: this.fileRepository.findAll()){
+            if(file.getUser() != null && file.getUser().equals(id)){
+                userFiles.add(file);
+            }
+        }
+        return userFiles;
+    }
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.prod';
 import { ComparisonResult } from '../models/comparison-result';
 import { FileInfo, FileInfo as FileUploadRequest } from '../models/file-request';
+import {TextFile} from "../models/text-file";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class FileService {
   }
 
   updateFileInfo(fileInfo: FileInfo) {
-    return this.http.put(      
+    return this.http.put(
       environment.APIEndpoint + '/updateFileInfo',
       fileInfo
     );
@@ -31,5 +32,9 @@ export class FileService {
     return this.http.get(
       environment.APIEndpoint + '/compareToAll/' + fileId
     ) as Observable<ComparisonResult[]>;
+  }
+
+  getUserFiles(userId: string): Observable<TextFile[]>{
+    return this.http.get(environment.APIEndpoint + '/fileListStringByUser/' + userId) as Observable<TextFile[]>;
   }
 }
