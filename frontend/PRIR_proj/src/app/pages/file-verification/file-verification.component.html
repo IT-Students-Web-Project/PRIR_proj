@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="row ms-5">
-        
+
     </div>
     <div class="row mt-5" *ngIf="results">
         <h5>Wyniki weryfikacji:</h5>
@@ -20,14 +20,20 @@
                 <th>Liczba zdań</th>
                 <th>Liczba identycznych zdań</th>
                 <th>Stopień podobieństwa</th>
+                <th>Identryczne zdania</th>
             </thead>
             <tbody>
-                <tr *ngFor="let r of results">
+                <tr *ngFor="let r of results" style="border-width: thin; border-color: royalblue">
                     <td>{{r.originalFileId}}</td>
                     <td>{{r.originalFileName}}</td>
                     <td>{{r.originalSentences}}</td>
                     <td>{{r.identicalSentences}}</td>
                     <td>{{r.similarityDegree}}%</td>
+                    <td>
+                      <li *ngFor="let identicalSentence of r.identicalSentencesList">
+                          {{identicalSentence}}
+                      </li>
+                    </td>
                 </tr>
             </tbody>
         </table>

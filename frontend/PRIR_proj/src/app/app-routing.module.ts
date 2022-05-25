@@ -6,6 +6,8 @@ import {HomeComponent} from "./pages/home/home.component";
 import {MainComponent} from "./pages/main/main.component";
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FileVerificationComponent } from './pages/file-verification/file-verification.component';
+import {FileDatabaseViewComponent} from "./pages/file-database-view/file-database-view.component";
+
 
 const routes: Routes = [
 
@@ -13,7 +15,8 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuardService]},
   {path: 'file-upload', component: FileUploadComponent, canActivate: [AuthGuardService]},
-  {path: 'file-verification/:fileId', component: FileVerificationComponent }
+  {path: 'file-verification/:fileId', component: FileVerificationComponent },
+  {path: 'file-database-view', component: FileDatabaseViewComponent}
 
 ];
 

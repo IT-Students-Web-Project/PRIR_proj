@@ -36,6 +36,9 @@ public class FileController {
         return fileService.getAllFilesString();
     }
 
+    @GetMapping("fileListStringByUser/{id}")
+    public List<StringContentFile> GetFilesString(@PathVariable("id")String id) { return fileService.getAllFilesByUser(id);}
+
     @GetMapping("file/{id}")
     public File GetFile(@PathVariable("id") String id) {
         return fileService.getFileById(id);

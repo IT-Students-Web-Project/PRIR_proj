@@ -16,6 +16,7 @@ import {MainComponent} from './pages/main/main.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import { FileUploadComponent } from './pages/file-upload/file-upload.component';
 import { FileVerificationComponent } from './pages/file-verification/file-verification.component';
+import { FileDatabaseViewComponent } from './pages/file-database-view/file-database-view.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { FileVerificationComponent } from './pages/file-verification/file-verifi
     HomeComponent,
     MainComponent,
     FileUploadComponent,
-    FileVerificationComponent
+    FileVerificationComponent,
+    FileDatabaseViewComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +39,8 @@ import { FileVerificationComponent } from './pages/file-verification/file-verifi
     ToastrModule.forRoot(),
     BrowserAnimationsModule,
     NgbModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]

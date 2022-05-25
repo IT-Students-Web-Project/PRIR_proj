@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row mt-5">
+    <h5>Pliki użytkownika:</h5>
+    <table class="mt-2">
+      <thead>
+      <th>Nazwa pliku</th>
+      <th>Zawartość</th>
+      <th>Porównaj</th>
+      </thead>
+      <tbody>
+      <tr *ngFor="let textFile of textFiles" style="border-width: thin; border-color: royalblue">
+        <td>{{ textFile.name }}</td>
+        <td>{{ textFile.content }}</td>
+        <td>
+          <button class="btn btn-lg btn-primary btn-block m-1" (click)="verifyClicked(textFile.id)">Weryfikuj</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
