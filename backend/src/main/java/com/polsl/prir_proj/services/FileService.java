@@ -70,10 +70,6 @@ public class FileService {
         List<File> files = getAllFiles();
         File comparedFile = getFileById(id);
         files.remove(comparedFile);
-        HashMap<String, byte[]> contents = new HashMap<>();
-        for (File file : files) {
-            contents.put(file.getId(), file.getContent());
-        }
 
         FileContent compared = new FileContent(
                 comparedFile.getContent(),
